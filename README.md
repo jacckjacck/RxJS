@@ -7,9 +7,9 @@ Please, use the branches for going through different examples
 
 Recommended order:
 
--master
--purity
--throttletime
--map
--subject
+- master
+- purity
+- throttletime
+- map
+- subject
 
