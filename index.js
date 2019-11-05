@@ -1,18 +1,31 @@
-//using the interval built-in RxJS observable
-// emiting a tick every second
-var observale = Rx.Observable.interval(1000);
+/**
+ * Subject is a kind of RxJS observable wich main functionality is 
+ * allow milticasting, it means, each observer will receive 
+ * the same data stream.
+ */
 
-var observer = {
+ //Subject instance
+var subject = new Rx.Subject();
+
+//Subscribe to the Subject (Subcription #1)
+subject.subscribe({
     next: (value) => {
         console.log(value);
+    },
+    error: (error) => {
+        console.log(error);
+    },
+    complete: () => {
+        console.log('Complete');
     }
-};
+});
 
-/*using map operator for transforming each value that is getting from the observable
- the map operator returns a new observable and it's passed to the subscribe method
-*/
-observale
-    .map( (value) => {
-        return `New value is ${value * 1.25}`;
-    })
-    .subscribe(observer); 
+//Subscribe to the Subject (Subcription #2)
+subject.subscribe({
+    next: (value) =>{
+        console.log(value);
+    }
+});
+
+// Emit new data from subject observable
+subject.next('New data is comming');
