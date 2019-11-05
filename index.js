@@ -1,31 +1,19 @@
+// Creates a built-in observable
+var observable = Rx.Observable.interval(1000);
+
 /**
- * Subject is a kind of RxJS observable wich main functionality is 
- * allow milticasting, it means, each observer will receive 
- * the same data stream.
+ * Filter operator, filter data and only allow to pass events which 
+ * condition returns true, otherwise the event is skipped
  */
-
- //Subject instance
-var subject = new Rx.Subject();
-
-//Subscribe to the Subject (Subcription #1)
-subject.subscribe({
-    next: (value) => {
-        console.log(value);
-    },
-    error: (error) => {
-        console.log(error);
-    },
-    complete: () => {
-        console.log('Complete');
-    }
-});
-
-//Subscribe to the Subject (Subcription #2)
-subject.subscribe({
-    next: (value) =>{
-        console.log(value);
-    }
-});
-
-// Emit new data from subject observable
-subject.next('New data is comming');
+observable
+    .filter( (value) =>{
+        return value % 2 == 0;
+    })
+    .subscribe({
+        next: (value) => {
+            console.log(value);
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    });
