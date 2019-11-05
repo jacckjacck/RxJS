@@ -1,19 +1,18 @@
-// Creates a built-in observable
-var observable = Rx.Observable.interval(1000);
+//Get input instance from DOM
+var input = document.querySelector('input');
+
+//Creates the observable from input event
+var observable = Rx.Observable.fromEvent(input, 'input');
 
 /**
- * Filter operator, filter data and only allow to pass events which 
- * condition returns true, otherwise the event is skipped
+ * debounceTime allow to emit values from the observable only 
+ * after a specific time without emitting event from source
+ * 
  */
 observable
-    .filter( (value) =>{
-        return value % 2 == 0;
-    })
+    .debounceTime(4000)
     .subscribe({
-        next: (value) => {
-            console.log(value);
-        },
-        error: (error) => {
-            console.log(error);
+        next: (event$) => {
+            console.log(event$.target.value);
         }
     });
