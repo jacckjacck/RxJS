@@ -1,21 +1,32 @@
-//Get input instance from DOM
-var input = document.querySelector('input');
-
 //Creates the observable from input event
-var observable = Rx.Observable.fromEvent(input, 'input');
+var observable = Rx.Observable.of(1,2,3,4,5);
+
 
 /**
- * debounceTime allow to emit values from the observable only 
- * after a specific time without emitting event from source
- * 
- * disctinctUntilChanged only emits values if data has some change
- */
+ * reduce operator apply a function for a entry stream sequentially
+ * when input stream completes, it returns the acummulated value
+ * */
 observable
-    .map( event$ => event$.target.value)
-    .debounceTime(4000)
-    .distinctUntilChanged() 
+    .reduce( (total, currentValue) => {
+        return total+currentValue;
+    },0)
     .subscribe({
         next: (value) => {
-            console.log(value);
+            console.log(value)
+        }
+    });
+
+
+/**
+ * scan operator apply a function for a entry stream sequentially
+ * and it returns each emitted value in an accumulative way
+ * */
+observable
+    .scan( (total, currentValue) => {
+        return total+currentValue;
+    },0)
+    .subscribe({
+        next: (value) => {
+            console.log(value)
         }
     });
