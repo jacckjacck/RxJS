@@ -1,19 +1,24 @@
 //Get input instance from DOM
-var input = document.querySelector('input');
+var input1 = document.querySelector('#input1');
+var input2 = document.querySelector('#input2');
+
+var span = document.querySelector('span');
 
 //Creates the observable from input event
-var observable = Rx.Observable.fromEvent(input, 'input');
+var observable1 = Rx.Observable.fromEvent(input1, 'input');
+var observable2 = Rx.Observable.fromEvent(input2, 'input');
+
 
 /**
- * pluck is applied to objects, and it allow to access to the 
- * object properties, something similar to map but more readable
+ * mergeMap operator allow us to merge two observables
  */
-observable
-    .pluck('target', 'value')
-    .debounceTime(500)
-    .distinctUntilChanged() 
-    .subscribe({
-        next: (value) => {
-            console.log(value);
-        }
-    });
+
+observable1.mergeMap(
+    (event1) => {
+        return observable2.map( (event2) => 
+            event1.target.value + ' '+  event2.target.value
+        )
+    }
+).subscribe( (combinedValue) => {
+    span.textContent = combinedValue;
+});
